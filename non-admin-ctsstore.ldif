@@ -1,0 +1,33 @@
+dn: ou=tokens
+changetype: modify
+add: aci
+aci: (targetattr="*")(version 3.0;acl "Allow entry search";
+ allow (search, read) userdn = "ldap:///uid=cts-user,ou=admins,ou=famrecords,ou=openam-session,ou=tokens";)
+aci: (targetattr="*")(version 3.0;acl "Modify entries"; allow (write)
+ userdn = "ldap:///uid=cts-user,ou=admins,ou=famrecords,ou=openam-session,ou=tokens";)
+aci: (targetcontrol="2.16.840.1.113730.3.4.3")(version 3.0;
+ acl "Allow persistentsearch";allow (search, read)
+ userdn = "ldap:///uid=cts-user,ou=admins,ou=famrecords,ou=openam-session,ou=tokens";)
+aci: (version 3.0;acl "Add config entry"; allow (add) userdn =
+ "ldap:///uid=cts-user,ou=admins,ou=famrecords,ou=openam-session,ou=tokens";)
+aci: (version 3.0;acl "Delete entries"; allow (delete) userdn =
+ "ldap:///uid=cts-user,ou=admins,ou=famrecords,ou=openam-session,ou=tokens";)
+
+dn: ou=admins,ou=famrecords,ou=openam-session,ou=tokens
+objectClass: top
+objectClass: organizationalunit
+ou: OpenAM Administrator
+dn: uid=cts-user,ou=admins,ou=famrecords,ou=openam-session,ou=tokens
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+cn: OpenAM Non-Admin-User
+sn: OpenAM
+userPassword: SomeStrongPassword
+ds-privilege-name: update-schema
+ds-privilege-name: subentry-write
+ds-privilege-name: password-reset
+ds-privilege-name: unindexed-search
+ds-rlim-lookthrough-limit: 0
+ds-rlim-size-limit: 5000
